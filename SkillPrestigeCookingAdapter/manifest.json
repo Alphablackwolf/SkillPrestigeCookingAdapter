@@ -5,9 +5,9 @@
     "MajorVersion": 1,
     "MinorVersion": 0,
     "PatchVersion": 4,
-    "Build": "0"
+    "Build": null
   },
   "Description": "",
-  "UniqueID": "20d6b8a3-b6e7-460b-a6e4-07c2b0cb6c63",
+  "UniqueID": "Alphablackwolf.CookingSkillPrestigeAdapter",
   "EntryDll": "SkillPrestigeCookingAdapter.dll"
 }
