@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using StardewValley;
 
 namespace SkillPrestigeCookingAdapter
 {
+    /// <summary>The SMAPI entry point.</summary>
     public class SkillPrestigeCookingAdapterMod : Mod
     {
         /*********
-        ** Properties
+        ** Accessors
         *********/
-        private static IModHelper Helper;
-        private static Texture2D _cookingSkillTexture;
-        private const string IconFileName = @"iconA.png";
+        /// <summary>The cooking skill icon.</summary>
+        internal static Texture2D IconTexture;
+
+        /// <summary>Whether the Cooking Skill mod is loaded.</summary>
+        internal static bool IsCookingSkillModLoaded;
+
+        /// <summary>Whether the Luck Skill mod is loaded.</summary>
+        internal static bool IsLuckSkillModLoaded;
 
 
         /*********
@@ -26,39 +26,9 @@ namespace SkillPrestigeCookingAdapter
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
-            SkillPrestigeCookingAdapterMod.Helper = helper;
-        }
-
-        public static Texture2D GetCookingSkillTexture()
-        {
-            if (_cookingSkillTexture != null) return _cookingSkillTexture;
-            try
-            {
-                var cookingSkillPath = GetCookingSkillModPath();
-                var fileStream = new FileStream(Path.Combine(cookingSkillPath, IconFileName), FileMode.Open);
-                _cookingSkillTexture = Texture2D.FromStream(Game1.graphics.GraphicsDevice, fileStream);
-            }
-            catch (Exception ex)
-            {
-                Log.Async("[Skill Prestige Cooking Adapter] failed to load icon: " + ex);
-                _cookingSkillTexture = new Texture2D(Game1.graphics.GraphicsDevice, 16, 16);
-                _cookingSkillTexture.SetData(Enumerable.Range(0, 256).Select(i => new Color(225, 168, byte.MaxValue)).ToArray());
-            }
-            return _cookingSkillTexture;
-        }
-
-        private static string GetCookingSkillModPath()
-        {
-            IModHelper modHelper = SkillPrestigeCookingAdapterMod.Helper;
-
-            // get Cooking Skill mod's implementation from SMAPI internals
-            // (This is a terrible idea, please don't do this.)
-            IMod cookingSkillMod = modHelper.Reflection
-                .GetPrivateValue<List<IMod>>(modHelper.ModRegistry, "Mods")
-                .FirstOrDefault(p => p.ModManifest.UniqueID == "CookingSkill");
-
-            // get mod's directory path
-            return cookingSkillMod?.Helper.DirectoryPath;
+            SkillPrestigeCookingAdapterMod.IconTexture = helper.Content.Load<Texture2D>("icon.png");
+            SkillPrestigeCookingAdapterMod.IsCookingSkillModLoaded = helper.ModRegistry.IsLoaded("spacechase0.CookingSkill");
+            SkillPrestigeCookingAdapterMod.IsLuckSkillModLoaded = helper.ModRegistry.IsLoaded("spacechase0.LuckSkill");
         }
     }
 }

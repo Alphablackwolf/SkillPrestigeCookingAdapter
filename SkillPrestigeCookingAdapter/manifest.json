@@ -8,6 +8,7 @@
     "Build": null
   },
   "Description": "",
+  "MinimumApiVersion": "1.14",
   "UniqueID": "Alphablackwolf.CookingSkillPrestigeAdapter",
   "EntryDll": "SkillPrestigeCookingAdapter.dll"
 }
